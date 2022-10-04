@@ -1,3 +1,4 @@
+import { ServerError } from "../errors/server-error";
 
 export const badRequest = (err: Error) => {
   return {
@@ -5,3 +6,10 @@ export const badRequest = (err: Error) => {
     body: err
   }
 }
+
+export const serverError = () => {
+  return {
+    statusCode: 500,
+    body: new ServerError(),
+  };
+};
