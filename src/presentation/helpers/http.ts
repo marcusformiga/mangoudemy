@@ -13,3 +13,10 @@ export const serverError = () => {
     body: new ServerError(),
   };
 };
+
+export const ok = (data) => {
+  return {
+    statusCode: 200,
+    body: data
+  }
+}

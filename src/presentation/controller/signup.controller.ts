@@ -2,7 +2,7 @@ import { AddAcount } from "../../domain/usecases/add-account";
 import { InvalidParamError } from "../errors/invalid-param-error";
 import { MissingParamError } from "../errors/missing-param-error";
 import { ServerError } from "../errors/server-error";
-import { badRequest, serverError } from "../helpers/bad-request";
+import { badRequest, serverError, ok } from "../helpers/http";
 import { Controller } from "../protocols/controller";
 import { EmailValidator } from "../protocols/email-validator";
 import { HttpRequest, HttpResponse } from "../protocols/http";
@@ -10,7 +10,7 @@ import { HttpRequest, HttpResponse } from "../protocols/http";
 export class SignUpController implements Controller {
   constructor(private readonly emailValidator: EmailValidator,
   private readonly addAcount: AddAcount) { }
-  handle(httpRequest: HttpRequest): HttpResponse {
+  async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
     const {name, email, password, passwordConfirmation} = httpRequest.body
     try {
       const requiredFields = ["name", "email", "password", "passwordConfirmation"]
@@ -27,12 +27,13 @@ export class SignUpController implements Controller {
       if (!isValidMail) {
         return badRequest(new InvalidParamError("email"))
       }
-      this.addAcount.add({
+      const account = await this.addAcount.add({
         name,
         email,
         password,
         passwordConfirmation
       })
+      return ok(account)
     } catch (err) {
       return serverError()
     }
