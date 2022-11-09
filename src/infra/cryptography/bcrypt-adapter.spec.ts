@@ -1,7 +1,7 @@
 import bcrypt from "bcryptjs"
 import { BcryptAdapter } from "./bcrypt-adapter"
 
-jest.mock("bcrypt", () => ({
+jest.mock("bcryptjs", () => ({
   // mockamos o bcryot nesse caso para nao ter que implementar na mao os detalhes da criptografia da lib
   // nao importa para a gente como eh feita internamente a criptografia.
   async hash(): Promise<string> {

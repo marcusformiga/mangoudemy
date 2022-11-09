@@ -4,6 +4,12 @@ import { AddAcountRepository } from "../../protocols/add-acount-repository";
 import { Encrypter } from "../../protocols/Encrypter";
 import { DbAddAcount } from "./db-add-account"
 
+type SutType = {
+  sut: DbAddAcount;
+  encrypterStub: Encrypter;
+  addAcountStub: AddAcountRepository;
+};
+
 const makeSut = (): SutType => {
 
   
@@ -42,11 +48,7 @@ const makeEncrypter = (): Encrypter => {
   return new EncrypterStub()
 }
 
-type SutType = {
-  sut: DbAddAcount,
-  encrypterStub: Encrypter,
-  addAcountStub: AddAcountRepository
-}
+
 
 describe("DbAddAcount UseCase", () => {
   test("Should call Encrypter with correct password", async () => {
@@ -93,6 +95,7 @@ describe("DbAddAcount UseCase", () => {
     });
   })
   test("Should return a account on sucess", async () => {
+    // casos de sucesso nao precisam de mocks, o default é passar nos testes
     const { sut } = makeSut();
     const accountData = {
       name: "validname",

@@ -1,4 +1,5 @@
 import { ServerError } from "../errors/server-error";
+import { Unauthorized } from "../errors/server-error copy";
 
 export const badRequest = (err: Error) => {
   return {
@@ -7,6 +8,12 @@ export const badRequest = (err: Error) => {
   }
 }
 
+export const unauthorized = () => {
+  return {
+    statusCode: 401,
+    body: new Unauthorized(),
+  };
+};
 export const serverError = () => {
   return {
     statusCode: 500,
